@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/banner.svg" alt="savestate: a pixel-art violet save crystal, the wordmark, and a small state card reading residence: Melbourne, before: Darwin." width="100%">
+  <img src="https://raw.githubusercontent.com/pixl-works/savestate/main/docs/assets/banner.svg" alt="savestate: a pixel-art violet save crystal, the wordmark, and a small state card reading residence: Melbourne, before: Darwin." width="100%">
 </p>
 
 # savestate
@@ -20,7 +20,7 @@ MEMORIES (date = when it was learned):
 2. [2026-11-23] I just moved to Melbourne.
 ```
 
-> v0.1.0 · [Apache-2.0](LICENSE) · install from GitHub: the `savestate` on PyPI is an unrelated project
+> v0.1.1 · [Apache-2.0](https://github.com/pixl-works/savestate/blob/main/LICENSE) · install from GitHub: the `savestate` on PyPI is an unrelated project
 
 ## Quickstart
 
@@ -42,7 +42,7 @@ print(layer.context("Where do I live now?"))
 ```
 
 `AnthropicLLM` reads `ANTHROPIC_API_KEY` (default model `claude-haiku-5-5`). No server or key at hand?
-[docs/examples/offline_demo.py](docs/examples/offline_demo.py) runs the same flow offline and prints the block above.
+[docs/examples/offline_demo.py](https://github.com/pixl-works/savestate/blob/main/docs/examples/offline_demo.py) runs the same flow offline and prints the block above.
 
 ## How it works
 
@@ -91,7 +91,7 @@ Other stores, on the 5 personas savestate was tuned on (facts that change):
 | Honcho 3.0.9 | 52.4 | **64.3** | 70.4, not recommended |
 
 On Honcho, use the card only: the full layer costs 4.4 points on situational questions. All numbers come from the
-research code savestate was extracted from. Re-run them with [bench/memconflict](bench/memconflict/README.md).
+research code savestate was extracted from. Re-run them with [bench/memconflict](https://github.com/pixl-works/savestate/blob/main/bench/memconflict/README.md).
 
 ## Why not Zep, Letta or Honcho's own card?
 
@@ -100,6 +100,6 @@ store and adds one file.
 
 ## More
 
-- [Guide](docs/guide.md): the full API, all options, the command line and config, security, limits, development setup.
-- [Benchmark](bench/memconflict/README.md): how the numbers above are made.
+- [Guide](https://github.com/pixl-works/savestate/blob/main/docs/guide.md): the full API, all options, the command line and config, security, limits, development setup.
+- [Benchmark](https://github.com/pixl-works/savestate/blob/main/bench/memconflict/README.md): how the numbers above are made.
 - Bugs and questions: [GitHub issues](https://github.com/pixl-works/savestate/issues).

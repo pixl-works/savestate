@@ -1,12 +1,17 @@
 [project]
-name = "savestate"
-version = "0.1.0"
+name = "savestate-memory"
+version = "0.1.1"
 description = "A small, self-maintaining state card on top of any agent memory system, for facts that change over time."
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
 requires-python = ">=3.11"
 dependencies = ["httpx>=0.27"]
+
+[project.urls]
+Homepage = "https://github.com/pixl-works/savestate"
+Source = "https://github.com/pixl-works/savestate"
+Issues = "https://github.com/pixl-works/savestate/issues"
 
 [project.optional-dependencies]
 honcho = ["honcho-ai==2.2.0"]

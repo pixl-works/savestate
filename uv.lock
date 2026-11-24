@@ -1300,8 +1300,8 @@ wheels = [
 ]
 
 [[package]]
-name = "savestate"
-version = "0.1.0"
+name = "savestate-memory"
+version = "0.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
