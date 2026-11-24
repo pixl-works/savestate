@@ -345,7 +345,7 @@ def test_a_card_file_of_another_user_raises_and_stays_byte_identical(tmp_path):
     before = p.read_bytes()
     with pytest.raises(ValueError, match=r"'u1'.*'u2'"):
         Card(FakeLLM([]), p, user_id="u2")
-    assert p.read_bytes() == before and [f.name for f in tmp_path.iterdir()] == ["card.json", "card.log.jsonl"]
+    assert p.read_bytes() == before and sorted(f.name for f in tmp_path.iterdir()) == ["card.json", "card.log.jsonl"]
 
 
 def test_a_card_without_an_id_is_adopted_on_the_next_save(tmp_path):
