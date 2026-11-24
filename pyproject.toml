@@ -15,6 +15,7 @@ Issues = "https://github.com/pixl-works/savestate/issues"
 
 [project.optional-dependencies]
 honcho = ["honcho-ai==2.2.0"]
+letta = ["letta-client==1.11.0"]
 local = ["sentence-transformers>=3.3"]
 
 [project.scripts]

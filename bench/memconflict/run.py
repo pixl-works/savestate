@@ -53,11 +53,17 @@ def run_persona(
     sessions: int | None = None,
     samples: int = 3,
     workers: int = 8,
+    host_store: Any = None,
 ) -> dict[str, Any]:
-    """Ingest session by session; after each, answer its questions in every arm. Writes out/predictions.jsonl."""
+    """Ingest session by session; after each, answer its questions in every arm. Writes out/predictions.jsonl.
+
+    `host_store` reads the same memory the way the host alone would (Letta: whole chunks, while the layer reads
+    exchanges); default `layer.store`.
+    """
     chain = item["Full_Session_Chain"][:sessions]
     out.mkdir(parents=True, exist_ok=True)
-    host = Recall(layer.store, None, k=layer.recall.k)  # the host alone: its own order, no card
+    host_store = host_store or layer.store
+    host = Recall(host_store, None, k=layer.recall.k)  # the host alone: its own order, no card
     host_prompt = host_system() if "host" in arms else ""
     preds = out / "predictions.jsonl"
     preds.write_text("")
@@ -69,7 +75,7 @@ def run_persona(
         for q in s.get("Session_Questions") or []:
             pool = layer.recall.search(q["question"])
             contexts = {
-                "host": (host_prompt, host.render(layer.store.search(q["question"], layer.recall.k), rules=False)),
+                "host": (host_prompt, host.render(host_store.search(q["question"], layer.recall.k), rules=False)),
                 "layer": (answer_rules(True, benchmark_rules=True), layer.recall.render(pool, rules=False)),
                 "layer-generic": (answer_rules(True, benchmark_rules=False), layer.recall.render(pool, rules=False)),
             }

@@ -6,14 +6,15 @@ from types import SimpleNamespace
 import httpx
 import pytest
 
-from savestate import Honcho, Ingesting, InMemory, Mem0Http, Memory, MemOSHttp, Store
+from savestate import Honcho, Ingesting, InMemory, Letta, Mem0Http, Memory, MemOSHttp, Store
 from savestate.stores import memos as memos_mod
 from savestate.stores.honcho import HonchoError, _chunks
+from savestate.stores.letta import LettaError, chunks, exchanges
 
 
 def test_every_adapter_satisfies_the_protocols():
     assert isinstance(InMemory(), Store) and isinstance(InMemory(), Ingesting)
-    for cls in (Mem0Http, MemOSHttp, Honcho):
+    for cls in (Mem0Http, MemOSHttp, Honcho, Letta):
         assert hasattr(cls, "search") and hasattr(cls, "add")
 
 
@@ -239,3 +240,125 @@ def test_mem0_key_over_plain_http_to_another_host_is_refused(monkeypatch):
 def test_memos_and_honcho_send_no_key_so_plain_http_stays_allowed():
     MemOSHttp("http://memos.lan:8800", "me")
     Honcho("ws", "http://honcho.lan:8820", client=SimpleNamespace())  # its SDK key is the fixed placeholder "local"
+
+
+# --- Letta -------------------------------------------------------------------------------------------------------
+
+
+class FakePassages:
+    """agents.passages as Letta 0.16.8 behaves: create returns a list with the embedding, search honours tags."""
+
+    def __init__(self, embed: bool = True, findable: bool = True):
+        self.rows: list[SimpleNamespace] = []
+        self.embed, self.findable, self.searches, self.deleted = embed, findable, [], []
+
+    def create(self, agent_id, *, text, tags, created_at):
+        p = SimpleNamespace(
+            id=f"p{len(self.rows)}",
+            text=text,
+            tags=tags,
+            created_at=created_at,
+            embedding=[0.1] * 4 if self.embed else [],
+        )
+        self.rows.append(p)
+        return [p]
+
+    def search(self, agent_id, *, query, top_k, tags=None):
+        self.searches.append({"query": query, "top_k": top_k, "tags": tags})
+        hits = [r for r in self.rows if self.findable and (not tags or set(tags) & set(r.tags))][:top_k]
+        return SimpleNamespace(
+            results=[SimpleNamespace(id=r.id, content=r.text, timestamp=r.created_at, tags=r.tags) for r in hits]
+        )
+
+    def delete(self, memory_id, *, agent_id):
+        self.deleted.append(memory_id)
+        self.rows = [r for r in self.rows if r.id != memory_id]
+
+
+class FactsLLM:
+    def __init__(self, answer):
+        self.answer, self.prompts = answer, []
+
+    def complete_json(self, prompt):
+        self.prompts.append(prompt)
+        return self.answer
+
+
+def _letta(passages, llm=None, **kw):
+    return Letta("agent-1", llm=llm, client=SimpleNamespace(agents=SimpleNamespace(passages=passages)), **kw)
+
+
+CHAT = [
+    {"role": "user", "content": "I just moved to Melbourne."},
+    {"role": "assistant", "content": "Big move!"},
+    {"role": "user", "content": "And I started at Northern Logistics."},
+    {"role": "assistant", "content": "Congrats."},
+]
+
+
+def test_letta_chunks_eight_messages_as_role_lines_capped_at_8000_chars():
+    msgs = [{"role": "user" if i % 2 == 0 else "assistant", "content": f"m{i}"} for i in range(10)]
+    out = chunks([*msgs, {"role": "system", "content": "skip me"}, {"role": "user", "content": " "}])
+    assert out == ["\n".join(f"{m['role']}: {m['content']}" for m in msgs[:8]), "user: m8\nassistant: m9"]
+    assert [len(c) for c in chunks([{"role": "user", "content": "x" * 9000}])] == [8000, 1006]
+
+
+def test_letta_exchanges_keep_each_user_message_with_its_replies():
+    text = "assistant: hello\nuser: I live in Darwin.\nassistant: Nice.\nassistant: More.\nuser: Bye."
+    assert exchanges(text) == [
+        "assistant: hello",
+        "user: I live in Darwin.\nassistant: Nice.\nassistant: More.",
+        "user: Bye.",
+    ]
+
+
+def test_letta_add_writes_dated_tagged_passages_and_returns_the_extracted_facts():
+    ps, llm = (
+        FakePassages(),
+        FactsLLM({"facts": ["User lives in Melbourne.", " ", 3, "User works at Northern Logistics."]}),
+    )
+    new = _letta(ps, llm).add(CHAT, "2022-02-25")
+    assert new == [
+        Memory("User lives in Melbourne.", "2022-02-25"),
+        Memory("User works at Northern Logistics.", "2022-02-25"),
+    ]
+    assert "dated 2022-02-25" in llm.prompts[0] and "user: I just moved to Melbourne." in llm.prompts[0]
+    (row,) = ps.rows
+    assert row.created_at == "2022-02-25T10:00:00Z" and row.tags[0].startswith("savestate-")
+    assert ps.searches[-1]["tags"] == row.tags  # the check searches this conversation's passages only
+
+
+def test_letta_add_needs_an_llm_and_writes_nothing_when_extraction_fails():
+    ps = FakePassages()
+    with pytest.raises(TypeError, match="needs llm"):
+        _letta(ps).add(CHAT, "2022-02-25")
+    with pytest.raises(LettaError, match="no JSON facts"):
+        _letta(ps, FactsLLM({})).add(CHAT, "2022-02-25")
+    assert ps.rows == []
+
+
+def test_letta_add_deletes_what_it_wrote_when_a_passage_has_no_embedding_or_cannot_be_found():
+    for ps, msg in ((FakePassages(embed=False), "without an embedding"), (FakePassages(findable=False), "cannot find")):
+        with pytest.raises(LettaError, match=msg):
+            _letta(ps, FactsLLM({"facts": []})).add(CHAT, "2022-02-25")
+        assert ps.rows == [] and ps.deleted == ["p0"]
+
+
+def test_letta_search_returns_dated_exchanges_or_whole_chunks():
+    ps = FakePassages()
+    _letta(ps, FactsLLM({"facts": []})).add(CHAT, "2022-02-25")
+    split = _letta(ps).search("where do I live", 10)
+    assert [m.text for m in split] == [
+        "user: I just moved to Melbourne.\nassistant: Big move!",
+        "user: And I started at Northern Logistics.\nassistant: Congrats.",
+    ]
+    assert {m.date for m in split} == {"2022-02-25"} and [m.id for m in split] == ["p0#0", "p0#1"]
+    whole = _letta(ps, split=False).search("where do I live", 10)
+    assert len(whole) == 1 and whole[0].text.count("user: ") == 2 and whole[0].id == "p0"
+
+
+def test_letta_key_over_plain_http_to_another_host_is_refused(monkeypatch):
+    monkeypatch.setenv("LETTA_API_KEY", "sk-test")
+    with pytest.raises(ValueError, match="plain http"):
+        Letta("agent-1", "http://letta.lan:8283")
+    assert Letta("agent-1", client=SimpleNamespace()).user_id == "agent-1"

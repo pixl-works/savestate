@@ -7,7 +7,7 @@
 **Memory stores keep every version of a fact. savestate tells the model which one is current.**
 
 Your agent's memory holds "I live in Darwin" from March and "I just moved to Melbourne" from November, and search may
-hand the model the wrong one. savestate sits on top of the store you already run (mem0, MemOS or Honcho) and keeps a
+hand the model the wrong one. savestate sits on top of the store you already run (mem0, MemOS, Honcho or Letta) and keeps a
 small dated **state card**: the current value of each fact that changes, and what it replaced. That card goes in front
 of the model with every answer. On a pre-registered benchmark it lifted mem0 from 47% to 71% on facts that change.
 
@@ -91,14 +91,18 @@ Other stores, on the 5 personas savestate was tuned on (facts that change):
 |---|---|---|---|
 | MemOS 2.0.36 | 48.6 | not measured | 71.4 |
 | Honcho 3.0.9 | 52.4 | **64.3** | 70.4, not recommended |
+| Letta 0.16.8 (archival memory) | 44.5 | 73.8, not recommended | **75.3** |
 
-On Honcho, use the card only: the full layer costs 4.4 points on situational questions. All numbers come from the
-research code savestate was extracted from. Re-run them with [bench/memconflict](https://github.com/pixl-works/savestate/blob/main/bench/memconflict/README.md).
+On Honcho, use the card only: the full layer costs 4.4 points on situational questions. On Letta it is the other way
+round: use the full layer (`owner_filter=True` and a reranker, `pip install 'savestate-memory[letta]'`). The card
+alone costs 5.9 points on facts that never change there; the full layer gains 2.0 on those and 14.2 on situational
+questions. All numbers come from the research code savestate was extracted from. Re-run them with [bench/memconflict](https://github.com/pixl-works/savestate/blob/main/bench/memconflict/README.md).
 
-## Why not Zep, Letta or Honcho's own card?
+## Why not Zep, or the host's own card?
 
-Zep/Graphiti and Letta solve this by *being* your memory system; Honcho keeps a card of its own. savestate keeps your
-store and adds one file.
+Zep/Graphiti solves this by *being* your memory system. Honcho keeps a card of its own, and a Letta agent can edit its
+own core memory. savestate keeps your store and adds one file; on Letta it works on archival memory (the part
+MemConflict measures) and leaves the agent loop alone.
 
 ## More
 

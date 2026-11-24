@@ -1,7 +1,7 @@
 """Configuration: a small TOML file, overridden by SAVESTATE_* environment variables.
 
     [store]
-    type = "mem0"                       # mem0 | memos | honcho
+    type = "mem0"                       # mem0 | memos | honcho | letta (user_id = the Letta agent id)
     url = "http://127.0.0.1:8888"
     user_id = "me"
     allow_http = false                  # same, for MEM0_API_KEY
@@ -22,7 +22,7 @@
     [rerank]
     url = "http://127.0.0.1:11600/v1/rerank"
 
-Secrets are never read from the file: use MEM0_API_KEY, ANTHROPIC_API_KEY or OPENAI_API_KEY.
+Secrets are never read from the file: use MEM0_API_KEY, LETTA_API_KEY, ANTHROPIC_API_KEY or OPENAI_API_KEY.
 Search order for the file: --config, $SAVESTATE_CONFIG, ~/.config/savestate/config.toml. The current directory is
 never searched: the file decides where the API key is sent, so only a file you named or your own config is read.
 """
@@ -94,8 +94,9 @@ def build_llm(cfg: dict[str, dict[str, Any]]) -> LLM:
     return AnthropicLLM(c.get("model", "claude-haiku-5-5"), base_url=c.get("base_url"), allow_http=allow)
 
 
-def build_store(cfg: dict[str, dict[str, Any]]) -> Store:
-    from savestate.stores import Honcho, Mem0Http, MemOSHttp
+def build_store(cfg: dict[str, dict[str, Any]], llm: LLM | None = None) -> Store:
+    """`llm` is used only by Letta, whose archival memory keeps raw text: it extracts the card's facts."""
+    from savestate.stores import Honcho, Letta, Mem0Http, MemOSHttp
 
     c = cfg.get("store", {})
     kind, user = c.get("type"), c.get("user_id", "default")
@@ -105,8 +106,10 @@ def build_store(cfg: dict[str, dict[str, Any]]) -> Store:
         return MemOSHttp(c.get("url", "http://127.0.0.1:8800"), user)
     if kind == "honcho":
         return Honcho(user, c.get("url", "http://127.0.0.1:8820"))
+    if kind == "letta":
+        return Letta(user, c.get("url", "http://127.0.0.1:8283"), llm, allow_http=c.get("allow_http") is True)
     raise ValueError(
-        f"[store] type must be mem0, memos or honcho (got {kind!r}); set it in the config or SAVESTATE_STORE"
+        f"[store] type must be mem0, memos, honcho or letta (got {kind!r}); set it in the config or SAVESTATE_STORE"
     )
 
 
@@ -129,9 +132,10 @@ def build_card(cfg: dict[str, dict[str, Any]], llm: LLM | None = None) -> Card:
 
 def build_layer(cfg: dict[str, dict[str, Any]]) -> Layer:
     c, r = cfg.get("card", {}), cfg.get("recall", {})
+    llm = build_llm(cfg)
     return Layer(
-        build_store(cfg),
-        build_llm(cfg),
+        build_store(cfg, llm),
+        llm,
         card_path=c.get("path", DEFAULT_CARD),
         subject=c.get("subject", "User"),
         names=c.get("names", DEFAULT_NAMES),
