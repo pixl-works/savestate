@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-labelledby="t d">
+  <title id="t">savestate</title>
+  <desc id="d">Banner: a pixel-art violet save crystal on a glowing save pad, the pixel-letter wordmark "savestate", the tagline "Memory keeps every version of a fact. savestate pins the current one.", and a small state card showing residence: Melbourne, replacing Darwin.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#120a24"/><stop offset="1" stop-color="#1f1038"/>
+    </linearGradient>
+    <linearGradient id="ink" gradientUnits="userSpaceOnUse" x1="262" y1="92" x2="845" y2="169">
+      <stop offset="0" stop-color="#f5f3ff"/><stop offset="0.55" stop-color="#e9d5ff"/><stop offset="1" stop-color="#f0abfc"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#d946ef" stop-opacity="0.55"/><stop offset="0.55" stop-color="#8b5cf6" stop-opacity="0.18"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M0 0h2v2h-2z" fill="#a78bfa" fill-opacity="0.16"/>
+    </pattern>
+  </defs>
+  <rect width="1280" height="320" rx="28" fill="url(#bg)"/>
+  <rect width="1280" height="320" rx="28" fill="url(#grid)"/>
+  <rect x="1" y="1" width="1278" height="318" rx="27" fill="none" stroke="#4c1d95" stroke-width="2"/>
+  <g shape-rendering="crispEdges">
+    <ellipse cx="135" cy="170" rx="150" ry="150" fill="url(#glow)" shape-rendering="auto"/>
+    <path d="M250 60h4v4h-4z M18 120h4v4h-4z M232 170h4v4h-4z M52 36h4v4h-4z M180 254h4v4h-4z M30 250h4v4h-4z M1000 40h4v4h-4z M1180 285h4v4h-4z M880 40h4v4h-4z M905 280h4v4h-4z M420 284h4v4h-4z" fill="#c4b5fd" fill-opacity="0.55"/>
+    <path d="M43 70h5v5h5v5h-5v5h-5v-5h-5v-5h5z M223 112h5v5h5v5h-5v5h-5v-5h-5v-5h5z M205 36h5v5h5v5h-5v5h-5v-5h-5v-5h5z" fill="#f0abfc"/>
+    <path d="M244 214h4v4h4v4h-4v4h-4v-4h-4v-4h4z M32 190h4v4h4v4h-4v4h-4v-4h-4v-4h4z" fill="#a78bfa"/>
+    <path d="M80 264h110v5h-110z M65 269h140v5h-140z M80 274h110v5h-110z" fill="#6d28d9"/>
+    <path d="M90 269h90v5h-90z" fill="#d946ef"/>
+    <path fill="#f5d0fe" d="M120 62h20v10h-20z M110 72h10v10h-10z M100 82h10v10h-10z M90 92h10v10h-10z M80 102h10v10h-10z M70 112h10v10h-10z M70 122h10v10h-10z M70 132h10v10h-10z M70 142h10v10h-10z M70 152h10v10h-10z M70 162h10v10h-10z M70 172h10v10h-10z M70 182h10v10h-10z M80 192h10v10h-10z M90 202h10v10h-10z M100 212h10v10h-10z M110 222h10v10h-10z M120 232h10v10h-10z M130 242h10v10h-10z"/>
+    <path fill="#a78bfa" d="M140 62h10v10h-10z M150 72h10v10h-10z M160 82h10v10h-10z M170 92h10v10h-10z M180 102h10v10h-10z M190 112h10v10h-10z M190 122h10v10h-10z M190 132h10v10h-10z M190 142h10v10h-10z M190 152h10v10h-10z M190 162h10v10h-10z M190 172h10v10h-10z M190 182h10v10h-10z M180 192h10v10h-10z M170 202h10v10h-10z M160 212h10v10h-10z M150 222h10v10h-10z M140 232h10v10h-10z"/>
+    <path fill="#d8b4fe" d="M80 122h30v10h-30z M80 132h10v10h-10z M100 132h10v10h-10z M80 142h10v10h-10z M100 142h10v10h-10z M80 152h10v10h-10z M100 152h10v10h-10z M80 162h30v10h-30z M80 172h30v10h-30z M80 182h30v10h-30z M90 192h20v10h-20z M100 202h10v10h-10z"/>
+    <path fill="#c084fc" d="M110 122h30v10h-30z M110 132h30v10h-30z M110 142h30v10h-30z M110 152h30v10h-30z M110 162h30v10h-30z M110 172h30v10h-30z M110 182h30v10h-30z M110 192h30v10h-30z M110 202h30v10h-30z M110 212h30v10h-30z M120 222h20v10h-20z M130 232h10v10h-10z"/>
+    <path fill="#9333ea" d="M160 92h10v10h-10z M160 102h20v10h-20z M160 112h30v10h-30z M140 122h20v10h-20z M140 132h20v10h-20z M140 142h20v10h-20z M140 152h20v10h-20z M140 162h20v10h-20z M140 172h20v10h-20z M140 182h20v10h-20z M140 192h20v10h-20z M140 202h20v10h-20z M140 212h20v10h-20z M140 222h10v10h-10z"/>
+    <path fill="#6b21a8" d="M160 122h30v10h-30z M160 132h30v10h-30z M160 142h30v10h-30z M160 152h30v10h-30z M160 162h30v10h-30z M160 172h30v10h-30z M160 182h30v10h-30z M160 192h20v10h-20z M160 202h10v10h-10z"/>
+    <path fill="#ead2ff" d="M100 92h10v10h-10z M90 102h20v10h-20z M80 112h30v10h-30z"/>
+    <path fill="#b980f5" d="M120 72h20v10h-20z M110 82h30v10h-30z M110 92h30v10h-30z M110 102h30v10h-30z M110 112h30v10h-30z"/>
+    <path fill="#a24bf0" d="M140 72h10v10h-10z M140 82h20v10h-20z M140 92h20v10h-20z M140 102h20v10h-20z M140 112h20v10h-20z"/>
+    <path fill="#ffffff" d="M90 132h10v10h-10z M90 142h10v10h-10z M90 152h10v10h-10z"/>
+    <path d="M607 96h11v11h-11z M739 96h11v11h-11z M607 107h11v11h-11z M739 107h11v11h-11z M277 118h44v11h-44z M343 118h33v11h-33z M398 118h11v11h-11z M442 118h11v11h-11z M475 118h33v11h-33z M541 118h44v11h-44z M596 118h44v11h-44z M673 118h33v11h-33z M728 118h44v11h-44z M805 118h33v11h-33z M266 129h11v11h-11z M376 129h11v11h-11z M398 129h11v11h-11z M442 129h11v11h-11z M464 129h11v11h-11z M508 129h11v11h-11z M530 129h11v11h-11z M607 129h11v11h-11z M706 129h11v11h-11z M739 129h11v11h-11z M794 129h11v11h-11z M838 129h11v11h-11z M277 140h33v11h-33z M343 140h44v11h-44z M398 140h11v11h-11z M442 140h11v11h-11z M464 140h55v11h-55z M541 140h33v11h-33z M607 140h11v11h-11z M673 140h44v11h-44z M739 140h11v11h-11z M794 140h55v11h-55z M310 151h11v11h-11z M332 151h11v11h-11z M376 151h11v11h-11z M409 151h11v11h-11z M431 151h11v11h-11z M464 151h11v11h-11z M574 151h11v11h-11z M607 151h11v11h-11z M640 151h11v11h-11z M662 151h11v11h-11z M706 151h11v11h-11z M739 151h11v11h-11z M772 151h11v11h-11z M794 151h11v11h-11z M266 162h44v11h-44z M343 162h44v11h-44z M420 162h11v11h-11z M475 162h33v11h-33z M530 162h44v11h-44z M618 162h22v11h-22z M673 162h44v11h-44z M750 162h22v11h-22z M805 162h33v11h-33z" fill="#7e22ce"/>
+    <path d="M603 92h11v11h-11z M735 92h11v11h-11z M603 103h11v11h-11z M735 103h11v11h-11z M273 114h44v11h-44z M339 114h33v11h-33z M394 114h11v11h-11z M438 114h11v11h-11z M471 114h33v11h-33z M537 114h44v11h-44z M592 114h44v11h-44z M669 114h33v11h-33z M724 114h44v11h-44z M801 114h33v11h-33z M262 125h11v11h-11z M372 125h11v11h-11z M394 125h11v11h-11z M438 125h11v11h-11z M460 125h11v11h-11z M504 125h11v11h-11z M526 125h11v11h-11z M603 125h11v11h-11z M702 125h11v11h-11z M735 125h11v11h-11z M790 125h11v11h-11z M834 125h11v11h-11z M273 136h33v11h-33z M339 136h44v11h-44z M394 136h11v11h-11z M438 136h11v11h-11z M460 136h55v11h-55z M537 136h33v11h-33z M603 136h11v11h-11z M669 136h44v11h-44z M735 136h11v11h-11z M790 136h55v11h-55z M306 147h11v11h-11z M328 147h11v11h-11z M372 147h11v11h-11z M405 147h11v11h-11z M427 147h11v11h-11z M460 147h11v11h-11z M570 147h11v11h-11z M603 147h11v11h-11z M636 147h11v11h-11z M658 147h11v11h-11z M702 147h11v11h-11z M735 147h11v11h-11z M768 147h11v11h-11z M790 147h11v11h-11z M262 158h44v11h-44z M339 158h44v11h-44z M416 158h11v11h-11z M471 158h33v11h-33z M526 158h44v11h-44z M614 158h22v11h-22z M669 158h44v11h-44z M746 158h22v11h-22z M801 158h33v11h-33z" fill="url(#ink)"/>
+  </g>
+  <g font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+    <text x="262" y="212" font-size="26" font-weight="600" fill="#ede9fe">Memory keeps every version of a fact.</text>
+    <text x="262" y="248" font-size="26" font-weight="600" fill="#f0abfc">savestate pins the current one.</text>
+  </g>
+  <g>
+    <rect x="930" y="62" width="300" height="196" rx="14" fill="#0b0618" stroke="#8b5cf6" stroke-width="2"/>
+    <rect x="930" y="62" width="300" height="38" rx="14" fill="#3b0764"/>
+    <rect x="930" y="86" width="300" height="14" fill="#3b0764"/>
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', 'Liberation Mono', monospace" font-size="17">
+      <text x="948" y="88" font-weight="700" fill="#f5d0fe" letter-spacing="2">STATE CARD</text>
+      <text x="948" y="134" fill="#c4b5fd">residence</text>
+      <text x="948" y="160" font-weight="700" fill="#ffffff">Melbourne</text>
+      <text x="948" y="184" fill="#a78bfa">Before: Darwin</text>
+      <text x="948" y="218" fill="#c4b5fd">employer</text>
+      <text x="948" y="242" font-weight="700" fill="#ffffff">none <tspan font-weight="400" fill="#a78bfa">(left Acme)</tspan></text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,28 @@
+# Copy to savestate.toml, ~/.config/savestate/config.toml, or point SAVESTATE_CONFIG / --config at it.
+# Keys are never read from this file: set ANTHROPIC_API_KEY (or OPENAI_API_KEY) and MEM0_API_KEY in the environment.
+
+[store]
+type = "mem0"                         # mem0 | memos | honcho
+url = "http://127.0.0.1:8888"
+user_id = "me"                        # the card file is bound to this id; another person's card is refused
+# allow_http = true                   # send MEM0_API_KEY over plain http to a non-local host (default: refused)
+
+[llm]
+provider = "anthropic"                # anthropic | openai (any OpenAI-compatible server)
+model = "claude-haiku-5-5"
+# base_url = "http://127.0.0.1:8890/anthropic"   # e.g. a proxy that injects the key
+# allow_http = true                   # a key over plain http to a non-local host is refused unless you set this
+
+[card]
+path = "~/.savestate/card.json"
+subject = "User"                      # the name your host's memories use for the person
+# names = ["residence", "employer", "partner's health", "kids", "coming up"]
+# blocklist = "deploy|home assistant"  # regex: matching lines never reach the card
+
+[recall]
+pool = 30
+k = 10
+owner_filter = false
+
+# [rerank]
+# url = "http://127.0.0.1:11600/v1/rerank"   # savestate serve-rerank
