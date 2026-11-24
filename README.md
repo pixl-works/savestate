@@ -20,6 +20,8 @@ MEMORIES (date = when it was learned):
 2. [2026-11-23] I just moved to Melbourne.
 ```
 
+[![ci](https://github.com/pixl-works/savestate/actions/workflows/ci.yml/badge.svg)](https://github.com/pixl-works/savestate/actions/workflows/ci.yml)
+
 > v0.1.1 · [Apache-2.0](https://github.com/pixl-works/savestate/blob/main/LICENSE) · install from GitHub: the `savestate` on PyPI is an unrelated project
 
 ## Quickstart
