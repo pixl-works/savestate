@@ -20,7 +20,7 @@ MEMORIES (date = when it was learned):
 2. [2026-11-23] I just moved to Melbourne.
 ```
 
-> Early (0.x) · [Apache-2.0](LICENSE)
+> v0.1.0 · [Apache-2.0](LICENSE) · install from GitHub: the `savestate` on PyPI is an unrelated project
 
 ## Quickstart
 
