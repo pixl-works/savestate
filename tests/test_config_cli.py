@@ -68,7 +68,9 @@ def test_cli_card_update_show_and_freshen(capsys, monkeypatch, tmp_path):
 
 
 def test_cli_context(capsys, monkeypatch, tmp_path):
-    monkeypatch.setattr("savestate.config.build_store", lambda cfg: InMemory([Memory("lives in Oslo", "2026-03-01")]))
+    monkeypatch.setattr(
+        "savestate.config.build_store", lambda cfg, llm=None: InMemory([Memory("lives in Oslo", "2026-03-01")])
+    )
     out = run(capsys, ["context", "where in Oslo?", "--no-rules"], monkeypatch, tmp_path)
     assert "[2026-03-01] lives in Oslo" in out and "RULES" not in out
 

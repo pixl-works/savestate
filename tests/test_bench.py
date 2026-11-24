@@ -184,6 +184,8 @@ def test_a_rerun_starts_from_an_empty_card_not_the_previous_runs(tmp_path, monke
     seen = {}
     monkeypatch.setattr(bench_cli, "load_personas", lambda: {0: PERSONA})
     monkeypatch.setattr(bench_cli, "_llm", lambda a: FakeLLM())
-    monkeypatch.setattr(bench_cli, "run_persona", lambda item, layer, *a: seen.update(lines=layer.card.lines) or {})
+    monkeypatch.setattr(
+        bench_cli, "run_persona", lambda item, layer, *a, **kw: seen.update(lines=layer.card.lines) or {}
+    )
     bench_cli.main(["--out", str(tmp_path), "run", "--persona", "0", "--store", "memory"])
     assert seen["lines"] == {}

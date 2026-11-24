@@ -36,7 +36,7 @@ The owner filter and reranker are both optional and off by default.
 
 | Part | What is there |
 |---|---|
-| **Stores** (`savestate.stores`) | `Mem0Http`, `MemOSHttp`, `Honcho` (extra `honcho`), `InMemory` (tests and examples). A store needs `search(query, k) -> list[Memory]`; one that also has `add(messages, date) -> list[Memory]` works with `after_conversation`. |
+| **Stores** (`savestate.stores`) | `Mem0Http`, `MemOSHttp`, `Honcho` (extra `honcho`), `Letta` (extra `letta`: archival memory of one agent; `add` needs `llm=` because Letta keeps raw text, so the card's facts are extracted from the conversation; `search` returns user/assistant exchanges), `InMemory` (tests and examples). A store needs `search(query, k) -> list[Memory]`; one that also has `add(messages, date) -> list[Memory]` works with `after_conversation`. |
 | **LLMs** | `AnthropicLLM`, `OpenAICompatLLM` (any `/chat/completions` server), `savestate.testing.FakeLLM`. Anything with `complete_json(prompt) -> dict` works. |
 | **Rerankers** | `NoRerank` (default), `HttpReranker` (1.5 s timeout, falls back to the host's order, 120 s cooldown after a failure), `LocalCrossEncoder` (extra `local`: sentence-transformers, pulls torch). |
 | **Owner filter** | `owner_filter=True` drops memories about other people's own lives (a friend's move) by asking the model once per distinct memory text and caching the answer. **Off by default**: it assumes every question is about the user, which is how the benchmark asks. |
@@ -95,8 +95,8 @@ the store, or pass `Card(..., user_id=...)`). Loading a file that names a differ
 the file alone, so a wrong `card_path` cannot mix two people. A card from an older version has no id and gets one on
 its next save.
 
-An API key is never sent over plain `http://` to a host other than this machine: `AnthropicLLM`, `OpenAICompatLLM` and
-`Mem0Http` raise `ValueError` when they are built with a key and an `http://` URL that is not `localhost`, `127.0.0.0/8`
+An API key is never sent over plain `http://` to a host other than this machine: `AnthropicLLM`, `OpenAICompatLLM`,
+`Mem0Http` and `Letta` (with `LETTA_API_KEY`) raise `ValueError` when they are built with a key and an `http://` URL that is not `localhost`, `127.0.0.0/8`
 or `::1`. `https://`, loopback `http://`, and `http://` without a key still work. If your network is private and you
 trust it, pass `allow_http=True` (config: `allow_http = true`). `MemOSHttp` and `Honcho` send no key.
 
@@ -108,7 +108,7 @@ trust it, pass `allow_http=True` (config: `allow_http = true`). `MemOSHttp` and 
 
 ```bash
 git clone https://github.com/pixl-works/savestate.git && cd savestate
-uv sync                 # add --extra honcho; --extra local pulls torch
+uv sync                 # add --extra honcho / --extra letta; --extra local pulls torch
 uv run pytest           # offline; the live test is opt-in: uv run pytest -m live
 uv run ruff check .
 ```

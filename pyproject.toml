@@ -1,6 +1,6 @@
 [project]
 name = "savestate-memory"
-version = "0.1.1"
+version = "0.2.0"
 description = "A small, self-maintaining state card on top of any agent memory system, for facts that change over time."
 readme = "README.md"
 license = "Apache-2.0"
@@ -15,6 +15,7 @@ Issues = "https://github.com/pixl-works/savestate/issues"
 
 [project.optional-dependencies]
 honcho = ["honcho-ai==2.2.0"]
+letta = ["letta-client==1.11.0"]
 local = ["sentence-transformers>=3.3"]
 
 [project.scripts]

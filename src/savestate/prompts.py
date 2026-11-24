@@ -77,6 +77,21 @@ Answer with JSON only: {"owners": [{"id": "m1", "about": "user"}]}
 MEMORIES:
 """
 
+# Facts from raw dialogue, for hosts that store raw text and report no derived memories (Letta's archival memory).
+# Verbatim from the research harness that measured Letta (agent_sleep/letta_layer.py FACTS_PROMPT).
+FACTS_PROMPT = """Below is a conversation dated {date} between a USER and an assistant. List the facts the USER states
+about their own life, as short standalone sentences that each start with "User" or "User's": where they live, work,
+employer, income, savings, relationship or marital status, children, pets, health, habits, routines, plans, tastes,
+and who their family is (names, birth dates, birthplaces, siblings, parents, education). Give the CURRENT value of
+anything that changed and say what it replaced when the user says so. Skip what only the assistant says, and skip
+facts about other people's own lives (friends, colleagues, relatives' jobs or moves) unless they say something about
+the user. One fact per line item, no duplicates.
+Answer with JSON only: {{"facts": ["User's ...", "User ..."]}}
+
+CONVERSATION:
+{dialogue}
+"""
+
 # Answer rules, from the research's failure map (64% of wrong answers had the right fact in front of the answerer).
 RULES_BASE = [
     "Use only the retrieved memories. Do not invent facts.",

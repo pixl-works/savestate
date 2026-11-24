@@ -30,6 +30,11 @@ uv run python -m bench.memconflict report --personas 0,1,2,3,4 --arms host,layer
 
 Results go to `./runs/` (git-ignored). A run is not resumable: delete `runs/memconflict/pNN` and start again.
 
+`--store letta` creates a throwaway agent per run (deleted with `--cleanup`) whose archival memory is embedded by
+`--letta-embed-url` / `--letta-embed-model` / `--letta-embed-dim` (default: bge-m3, 1024, at `127.0.0.1:11500/v1`, an
+OpenAI-compatible endpoint the Letta server can reach). The `host` arm reads Letta's whole chunks; the layer arms read
+them split into exchanges. Needs `uv sync --extra letta`.
+
 ## Arms
 
 All arms are answered from the same store and the same retrieved pool, so only the reading differs.
@@ -41,7 +46,7 @@ All arms are answered from the same store and the same retrieved pool, so only t
 | `layer-generic` | the same | savestate's shipped default rules (benchmark-shaped rule off) |
 
 `--store memory` is the in-memory test store: it keeps raw user turns and ranks by word overlap, so it is a **pipeline
-smoke test, not a measurement**; its "host alone" score is meaningless. Use a real host (`mem0`, `memos`, `honcho`) for
+smoke test, not a measurement**; its "host alone" score is meaningless. Use a real host (`mem0`, `memos`, `honcho`, `letta`) for
 numbers.
 
 ## Scoring (fixed before the runs)

@@ -12,7 +12,7 @@ from savestate.models import LLM, Ingesting, Memory, Reranker, Store
 from savestate.owners import Owners
 from savestate.recall import Recall, answer_rules
 from savestate.rerank import HttpReranker, LocalCrossEncoder, NoRerank
-from savestate.stores import Honcho, InMemory, Mem0Http, MemOSHttp
+from savestate.stores import Honcho, InMemory, Letta, Mem0Http, MemOSHttp
 
 __all__ = [
     "LLM",
@@ -23,6 +23,7 @@ __all__ = [
     "InMemory",
     "Ingesting",
     "Layer",
+    "Letta",
     "LocalCrossEncoder",
     "Mem0Http",
     "MemOSHttp",
@@ -35,4 +36,4 @@ __all__ = [
     "Store",
     "answer_rules",
 ]
-__version__ = "0.1.1"
+__version__ = "0.2.0"
