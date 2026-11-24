@@ -22,7 +22,7 @@ MEMORIES (date = when it was learned):
 
 [![ci](https://github.com/pixl-works/savestate/actions/workflows/ci.yml/badge.svg)](https://github.com/pixl-works/savestate/actions/workflows/ci.yml)
 
-> v0.1.1 · [Apache-2.0](https://github.com/pixl-works/savestate/blob/main/LICENSE) · on PyPI as `savestate-memory` (`import savestate`)
+> v0.2.0 · [Apache-2.0](https://github.com/pixl-works/savestate/blob/main/LICENSE) · on PyPI as `savestate-memory` (`import savestate`)
 
 ## Quickstart
 
