@@ -1,9 +1,10 @@
 name: publish
 # PyPI Trusted Publishing: no token is stored anywhere. PyPI trusts this workflow
 # (pixl-works/savestate, publish.yml, environment "pypi") through OpenID Connect.
-# Until the pending publisher exists on pypi.org, releases are uploaded by hand with an API token;
-# run this workflow manually once Trusted Publishing is set up, and switch the trigger back to `release`.
+# Publishing a GitHub release uploads it; bump the version in pyproject.toml and __init__.py first.
 on:
+  release:
+    types: [published]
   workflow_dispatch:
 permissions:
   contents: read
